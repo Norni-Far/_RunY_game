@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Naconechnik
+  - EnemyMashine
+  - 0_Bullet
+  - Heart
+  - Arrow
+  - Destroy
+  - C_AtackJoystick
+  - C_JumpJoystick
+  - S_Canvas
+  - HungleForJump
+  - S_DistanceOfWay
+  - GameManager
+  - DeadWheel
+  - Explosion
+  - Mine
+  - EmptyTriangle
+  - 1_Rocket
+  - parentForArroy
+  - S_Save
+  - FlagOfSave
+  - CircleOfRenderer
+  - CFR
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Triangle
+  - Ground
+  - Arrow
+  - EnemyBullet
+  - EnemyMashine
+  - WithMe
+  - DeadWheel
+  - Explosion
+  - DeadPartsOfTriangle
+  - FlagOfSave
+  - CircleOfRenderer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
