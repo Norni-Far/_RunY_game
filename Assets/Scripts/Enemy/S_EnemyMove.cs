@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -25,6 +24,10 @@ public class S_EnemyMove : MonoBehaviour
 
     [SerializeField] private int Health = 5;
     [SerializeField] private bool StartMove;
+
+    public delegate void Delegats();
+    public event Delegats event_TakeDamage;
+    public event Delegats event_DeadEnemy;
 
     public int NumberOfPosition = 0;
     private void Start()
@@ -89,6 +92,8 @@ public class S_EnemyMove : MonoBehaviour
 
     public void TakeDamage(GameObject Arrow)
     {
+        event_TakeDamage?.Invoke(); // вывод об уроне
+
         Rigidbody2D AroowRb = Arrow.GetComponent<Rigidbody2D>();
         Arrow.tag = "Untagged";
         Arrow.transform.SetParent(gameObject.transform);
@@ -100,6 +105,9 @@ public class S_EnemyMove : MonoBehaviour
 
     public void DeadMashine()
     {
+        event_DeadEnemy?.Invoke(); // вывод об смерти врага
+
+
         DeadSound.Play();
 
         Fire.SetActive(true);

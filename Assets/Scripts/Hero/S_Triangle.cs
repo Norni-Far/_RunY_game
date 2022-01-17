@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,6 +8,9 @@ public class S_Triangle : MonoBehaviour
     public delegate void Delegats(GameObject Player);
     public event Delegats event_PlayerisLive;
     public event Delegats event_PlayerisDead;
+
+    public delegate void Delegats_0();
+    public event Delegats_0 event_PlayerisTakeDamage;
 
     //
     private Save_Json Save;
@@ -54,9 +55,11 @@ public class S_Triangle : MonoBehaviour
     [SerializeField] public int Health;
     [SerializeField] private int twoHealth;
     private int ForHp = 10;
+    private int StartHP = 0;
+
     private ContactPoint2D[] Contacts = new ContactPoint2D[1];
 
-    [SerializeField] private int SpeedOfFall;
+    [SerializeField] private int SpeedOfFallforDamage;
     [SerializeField] private int lvl;
     public void FindWithTeg()
     {
@@ -89,6 +92,7 @@ public class S_Triangle : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         //
+        StartHP = Health;
         ForHp = Health / 10;
         twoHealth = Health / ForHp;
     }
@@ -118,6 +122,7 @@ public class S_Triangle : MonoBehaviour
     }
 
 
+    #region Control
     public void Jump()
     {
         if (!isJump)
@@ -133,6 +138,15 @@ public class S_Triangle : MonoBehaviour
 
             isJump = false;
         }
+    }
+
+    public void StopFall(float HungleX, float HungleY)
+    {
+        if (HungleX > 0 && HungleY < -10)
+            rb.drag = 2;
+        else
+            rb.drag = 0.1f;
+
     }
 
     public void Attack_Direction(Vector3 TargetPos, bool Fire)
@@ -160,6 +174,7 @@ public class S_Triangle : MonoBehaviour
         ArrowRbCreate.AddForce(ArrowCreate.transform.up * 200f);
         ArrowCreate.GetComponent<S_Arrow>().StartRotation = true;
     }
+    #endregion
 
     private void Update()
     {
@@ -256,8 +271,8 @@ public class S_Triangle : MonoBehaviour
                 S_Canvas.UpdateMaxFall(Mathf.Abs(rb.velocity.y));
         }
 
-        if (collision.gameObject.tag == "Ground" && rb.velocity.y < -SpeedOfFall) // приземление         
-            Health -= Convert.ToInt32(Mathf.Abs(rb.velocity.y)) / SpeedOfFall;
+        if (collision.gameObject.tag == "Ground" && rb.velocity.y < -SpeedOfFallforDamage) // приземление         
+            Health -= Convert.ToInt32(Mathf.Abs(rb.velocity.y)) / SpeedOfFallforDamage;
 
     }
 
@@ -271,11 +286,19 @@ public class S_Triangle : MonoBehaviour
     #endregion
 
 
+    #region HealthHero
     // Взрывная волна
     private void WaveOfExplosion(GameObject Explosion) => rb.AddForce((transform.position - Explosion.transform.position) * 25, ForceMode2D.Impulse);
 
     private void CheckHealth()
     {
+        if (StartHP > Health)
+        {
+            event_PlayerisTakeDamage?.Invoke();
+            StartHP--; 
+            // вывод на экран 
+        }
+
         if (Health / ForHp < twoHealth)
         {
             print("dc");
@@ -314,7 +337,7 @@ public class S_Triangle : MonoBehaviour
 
             TakeDamage.Play();
 
-        }
+        }   
     }
 
     public void DestroyTriangle(int health)
@@ -353,4 +376,5 @@ public class S_Triangle : MonoBehaviour
     {
         StopAllCoroutines();
     }
+    #endregion
 }

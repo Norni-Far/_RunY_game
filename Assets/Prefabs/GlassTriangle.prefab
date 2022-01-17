@@ -2096,7 +2096,7 @@ MonoBehaviour:
   isJump: 1
   Health: 30
   twoHealth: 0
-  SpeedOfFall: 15
+  SpeedOfFallforDamage: 18
   lvl: 0
 --- !u!68 &5807901551779648994
 EdgeCollider2D:

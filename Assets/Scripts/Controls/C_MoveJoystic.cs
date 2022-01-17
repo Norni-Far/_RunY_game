@@ -12,7 +12,6 @@ public class C_MoveJoystic : MonoBehaviour
 
     [SerializeField] private float MaxPosition = 128;
     [SerializeField] private float FloatTimeToupdateJomp = 0.2f;
-    private bool f = false;
 
     private void Start()
     {
@@ -28,16 +27,23 @@ public class C_MoveJoystic : MonoBehaviour
 
     IEnumerator StartCheking()
     {
+        float HungleX;
+        float HungleY;
+
         while (true)
         {
+            HungleX = Hungle.transform.localPosition.x;
+            HungleY = Hungle.transform.localPosition.y;
+
             if (S_Triangle != null)
             {
-                if (Hungle.transform.localPosition.x > 5 || Hungle.transform.localPosition.x < -5 ||
-               Hungle.transform.localPosition.y > 5 || Hungle.transform.localPosition.y < -5)
+                if (HungleX > 5 || HungleX < -5 || HungleY > 5 || HungleY < -5)
                 {
-                    S_Triangle.ForceOfJojstik = CheckForceOFJoistick(Hungle.transform.localPosition.x, Hungle.transform.localPosition.y);
+                    S_Triangle.ForceOfJojstik = CheckForceOFJoistick(HungleX, HungleY);
                     S_Triangle.Jump();
                 }
+
+                S_Triangle.StopFall(HungleX, HungleY);
             }
 
             yield return new WaitForSeconds(0.2f);

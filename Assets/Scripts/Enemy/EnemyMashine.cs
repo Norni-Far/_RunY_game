@@ -9,24 +9,24 @@ public class EnemyMashine : MonoBehaviour
     [SerializeField] private GameManager GameManager;
     [SerializeField] private S_DistanceOfWay S_DistanceOfWay;
     [SerializeField] private Save_Json Save;
+    [SerializeField] private UI_infDamage UI_infDamage;
     private S_EnemyMove S_EnemyMove;
     //
     // Уровни
     [SerializeField] private int lvl;
-    [SerializeField]
+    
     private int[] chanseOfOrdaLVL = new int[]
-    { 5,
+    {       5,
+            10,
             15,
-            20,
             30
-        };
-    [SerializeField]
+    };
     private int[] colOfOrdaLVL = new int[]
     {
         2,
+        2,
         3,
-        4,
-        5
+        4
     };
     //
 
@@ -47,7 +47,7 @@ public class EnemyMashine : MonoBehaviour
     //[SerializeField] private int MaxRandomWeapons = 5;
     [SerializeField]
     private int[,,] p_Of_Weapons_lvl_0 = new int[,,]
-    { 
+    {
         { // первый уровень  0
         {0,56},    // пулемётчик
         {55,81},   // ракетчик
@@ -186,6 +186,11 @@ public class EnemyMashine : MonoBehaviour
         S_EnemyMove = Inst.GetComponent<S_EnemyMove>();
         S_EnemyMove.PlacementWeapons(PrefabsWeapons[ChooseWeapons()]);
         S_EnemyMove.PlacementTarget(TargetPlace[ChoosePlace(Inst, S_EnemyMove)]);
+
+        // подписка Enemy на событие 
+        S_EnemyMove.event_TakeDamage += UI_infDamage.DamageEnemy;
+        S_EnemyMove.event_DeadEnemy += UI_infDamage.KillEnemy;
+
     }
     private int ChooseWeapons()
     {

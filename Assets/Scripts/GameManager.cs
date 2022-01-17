@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private C_MoveJoystic C_MoveJoystic;
     [SerializeField] private S_FinishForHero S_Finish;
     [SerializeField] private Ads_UnityReclama UnityAds;
+    [SerializeField] private UI_infDamage UI_infDamage;
 
     [Header("Objects")]
     [SerializeField] private GameObject ArrayParent;
@@ -76,6 +77,8 @@ public class GameManager : MonoBehaviour
 
     public void PlayerInTheScene(GameObject Player)
     {
+        S_Triangle PlayerScript = Player.GetComponent<S_Triangle>();
+
         for (int i = 0; i < ArrayParent.transform.childCount; i++)
         {
             Destroy(ArrayParent.transform.GetChild(i).gameObject);
@@ -88,12 +91,13 @@ public class GameManager : MonoBehaviour
         //
 
         // Обновеление информации о новом игроке
+        PlayerScript.event_PlayerisTakeDamage += UI_infDamage.DamageHero;
         S_DistanceOfWay.CheckDistance();
         S_MainCamera.FindPlayer();
         S_MovePointsOfEnemy.FindPlayer();
 
-        C_Attacklojstick.UpdateTriangle(Player.GetComponent<S_Triangle>());
-        C_MoveJoystic.UpdateTriangle(Player.GetComponent<S_Triangle>());
+        C_Attacklojstick.UpdateTriangle(PlayerScript);
+        C_MoveJoystic.UpdateTriangle(PlayerScript);
         //
     }
 
